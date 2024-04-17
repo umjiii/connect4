@@ -1,0 +1,305 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Connect4LogicTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">Test</a>
+</div>
+
+<h1>Coverage Summary for Class: Connect4LogicTest (Test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Connect4LogicTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (82/82)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/** Description: JUnit4 Test class that creates test objects and comparison objects
+&nbsp; * to test each method in the Connect4Logic class, including those made to make
+&nbsp; * testing easier. This includes placePuck(), checkPucks(), setPuckInput(),
+&nbsp; * and resetBoard().
+&nbsp; *
+&nbsp; * Author: Stephen Arel
+&nbsp; * Version: 1.0 4/16/2024
+&nbsp; */
+&nbsp;package Test;
+&nbsp;
+&nbsp;import core.Connect4Logic;
+&nbsp;import org.junit.Test;
+&nbsp;
+&nbsp;import static org.junit.Assert.*;
+&nbsp;
+&nbsp;/** Test class made to initialize test objects and run test methods,
+&nbsp; * including setUp() and tearDown().
+&nbsp; */
+<b class="fc">&nbsp;public class Connect4LogicTest {</b>
+&nbsp;    /** Connect4Logic object used to test methods and array functionality as game board. **/
+&nbsp;    private Connect4Logic testBoard;
+&nbsp;    /** Array of String arrays used to represent &quot;empty&quot; board. **/
+<b class="fc">&nbsp;    private String[][] emptyBoard = new String[7][6];</b>
+&nbsp;
+&nbsp;    /** Before testing occurs, this method initializes the testBoard object.
+&nbsp;     *
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @org.junit.Before
+&nbsp;    public void setUp() throws Exception {
+<b class="fc">&nbsp;        testBoard = new Connect4Logic();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** After testing occurs, sets testBoard object reference to null.
+&nbsp;     *
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @org.junit.After
+&nbsp;    public void tearDown() throws Exception {
+<b class="fc">&nbsp;        testBoard = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Tests 4 cases of puck placement:
+&nbsp;     * 1. Place player X puck in empty column.
+&nbsp;     * 2. Place player O in empty column.
+&nbsp;     * 3. Place one player&#39;s puck on top of another&#39;s.
+&nbsp;     * 4. Try to place puck in full column - nothing should be added,
+&nbsp;     *      shown by top puck remaining the same, despite a different
+&nbsp;     *      puck being used to place into full column.
+&nbsp;     *
+&nbsp;     * Also tests that puckInput corresponds to that of the correct player
+&nbsp;     *      (X -&gt; &quot;X&quot;, O -&gt; &quot;O&quot;).
+&nbsp;     */
+&nbsp;    @org.junit.Test
+&nbsp;    public void testPlacePuck() {
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;X&quot;, testBoard.puckInput);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;X&quot;, testBoard.columnArray[0][0]);</b>
+&nbsp;
+<b class="fc">&nbsp;        testBoard.placePuck(1, 2);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;O&quot;, testBoard.puckInput);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;O&quot;, testBoard.columnArray[1][0]);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(1, 1);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;X&quot;, testBoard.columnArray[1][1]);</b>
+&nbsp;
+<b class="fc">&nbsp;        testBoard.placePuck(0, 2);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;O&quot;, testBoard.columnArray[0][1]);</b>
+&nbsp;
+&nbsp;        //fill rest of column 0
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+&nbsp;
+&nbsp;        //try to place puck in full column
+<b class="fc">&nbsp;        testBoard.placePuck(0, 2);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;X&quot;, testBoard.columnArray[0][5]);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Tests several test cases of how pucks can be checked for four in a row
+&nbsp;     *      by asserting that puckCount is 4 (or 0 for last case).
+&nbsp;     * 1. 4 in a row vertically.
+&nbsp;     * 2. 4 in a row for a different player
+&nbsp;     *      (showing that the player doesn&#39;t matter for how pucks are checked).
+&nbsp;     * 3. 4 in a row diagonall from the bottom left to upper right.
+&nbsp;     * 4. 4 in a row diagonally from the bottom right to upper left.
+&nbsp;     * 5. 0 in a row when there is not 4 in a row on the board.
+&nbsp;     *
+&nbsp;     * Also tests that the last row being analyzed is the last row to be placed in,
+&nbsp;     *      to show functionality of vertical checks.
+&nbsp;     */
+&nbsp;    @org.junit.Test
+&nbsp;    public void testCheckPucks() {
+&nbsp;        //****** Vertical Checks ******
+&nbsp;        //place 4 in a row, check 4 in a row for player X
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.checkPucks(0);</b>
+&nbsp;        //row should be at 3
+<b class="fc">&nbsp;        assertEquals(3, testBoard.row);</b>
+&nbsp;        //4 in a row should be counted in puckCount
+<b class="fc">&nbsp;        assertEquals(4, testBoard.puckCount);</b>
+&nbsp;
+&nbsp;        //check that this works for other player
+&nbsp;        //set puckInput to O to check for player O pucks
+<b class="fc">&nbsp;        testBoard.setPuckInput(&quot;O&quot;);</b>
+&nbsp;        //check the same column X placed in
+<b class="fc">&nbsp;        testBoard.checkPucks(1);</b>
+&nbsp;        //row should be set to 3
+<b class="fc">&nbsp;        assertEquals(3, testBoard.row);</b>
+&nbsp;        //0 in a row for player O should be counted
+<b class="fc">&nbsp;        assertEquals(0, testBoard.puckCount);</b>
+&nbsp;
+&nbsp;        //****** Diagonal checks ******
+&nbsp;        //Diagonal check for up-right
+<b class="fc">&nbsp;        testBoard.resetBoard();</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(1, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(1, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(2, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(2, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(2, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 1);</b>
+<b class="fc">&nbsp;        testBoard.setPuckInput(&quot;X&quot;);</b>
+<b class="fc">&nbsp;        testBoard.checkPucks(0);</b>
+<b class="fc">&nbsp;        assertEquals(4, testBoard.puckCount);</b>
+<b class="fc">&nbsp;        testBoard.resetBoard();</b>
+&nbsp;
+&nbsp;        //Diagonal check for up-left
+<b class="fc">&nbsp;        testBoard.placePuck(6, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(5, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(5, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(4, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(4, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(4, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 2);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(3, 1);</b>
+<b class="fc">&nbsp;        testBoard.checkPucks(0);</b>
+<b class="fc">&nbsp;        assertEquals(4, testBoard.puckCount);</b>
+<b class="fc">&nbsp;        testBoard.resetBoard();</b>
+&nbsp;
+<b class="fc">&nbsp;        testBoard.checkPucks(0);</b>
+<b class="fc">&nbsp;        assertEquals(0, testBoard.puckCount);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Tests setPuckInput() method by using method and checking
+&nbsp;     *      puckInput String.
+&nbsp;     */
+&nbsp;    @Test
+&nbsp;    public void testSetPuckInput() {
+<b class="fc">&nbsp;        testBoard.setPuckInput(&quot;test&quot;);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;test&quot;, testBoard.puckInput);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Tests resetBoard() method by populating board, calling method,
+&nbsp;     * then testing for following conditions:
+&nbsp;     * 1. Each element on the board is empty/equals &quot; &quot;.
+&nbsp;     * 2. playerTurn = 0
+&nbsp;     * 3. puckInput = &quot;X&quot;
+&nbsp;     * 4. row = 0
+&nbsp;     *
+&nbsp;     */
+&nbsp;    @Test
+&nbsp;    public void testResetBoard() {
+&nbsp;        //Fill emptyArray with same placeholder values used in Connect4Logic
+<b class="fc">&nbsp;        for (int i = 0; i &lt; emptyBoard.length; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; emptyBoard[i].length; j++) {</b>
+<b class="fc">&nbsp;                emptyBoard[i][j] = &quot; &quot;;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+<b class="fc">&nbsp;        testBoard.placePuck(0, 1);</b>
+&nbsp;
+<b class="fc">&nbsp;        testBoard.resetBoard();</b>
+&nbsp;        //assert that each column is filled with &quot; &quot; as should be
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[0], testBoard.columnArray[0]);</b>
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[1], testBoard.columnArray[1]);</b>
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[2], testBoard.columnArray[2]);</b>
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[3], testBoard.columnArray[3]);</b>
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[4], testBoard.columnArray[4]);</b>
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[5], testBoard.columnArray[5]);</b>
+<b class="fc">&nbsp;        assertArrayEquals(emptyBoard[6], testBoard.columnArray[6]);</b>
+&nbsp;
+<b class="fc">&nbsp;        assertEquals(1, testBoard.playerTurn);</b>
+<b class="fc">&nbsp;        assertEquals(&quot;X&quot;, testBoard.puckInput);</b>
+<b class="fc">&nbsp;        assertEquals(0, testBoard.puckCount);</b>
+<b class="fc">&nbsp;        assertEquals(0, testBoard.row);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-16 20:24</div>
+</div>
+</body>
+</html>

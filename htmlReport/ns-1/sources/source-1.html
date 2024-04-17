@@ -1,0 +1,172 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Connect4ComputerPlayerTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">Test</a>
+</div>
+
+<h1>Coverage Summary for Class: Connect4ComputerPlayerTest (Test)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Connect4ComputerPlayerTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (12/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/** JUnit4 test class that creates test objects and checks for the only method in
+&nbsp; * Connect4ComputerPlayer class.
+&nbsp; */
+&nbsp;package Test;
+&nbsp;
+&nbsp;import core.Connect4ComputerPlayer;
+&nbsp;import core.Connect4Logic;
+&nbsp;import org.junit.After;
+&nbsp;import org.junit.Before;
+&nbsp;import org.junit.Test;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;import static org.junit.Assert.*;
+&nbsp;
+&nbsp;/** Test class made to initialize test objects and run test method for only
+&nbsp; * method, makeMove(), as well as including setUp() and tearDown().
+&nbsp; */
+<b class="fc">&nbsp;public class Connect4ComputerPlayerTest {</b>
+&nbsp;
+&nbsp;    /** Connect4Logic object used as a &quot;board&quot; for testCPU to make moves on. **/
+&nbsp;    Connect4Logic testBoard;
+&nbsp;    /** Connect4ComputerPlayer object to test class and call makeMove() method. **/
+&nbsp;    Connect4ComputerPlayer testCPU;
+&nbsp;
+&nbsp;    /** Integer variable used to hold integer return of makeMove(). **/
+<b class="fc">&nbsp;    int testColumnNum = -1;</b>
+&nbsp;    /** Boolean variable set to true if random integer falls out of bounds. **/
+<b class="fc">&nbsp;    boolean boundsTestFailed = false;</b>
+&nbsp;
+&nbsp;    /** Before testing occurs, this method initializes the necessary objects
+&nbsp;     * to call methods, as well as prepares testBoard for moves to be made.
+&nbsp;     *
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @Before
+&nbsp;    public void setUp() throws Exception {
+<b class="fc">&nbsp;        testBoard = new Connect4Logic();</b>
+<b class="fc">&nbsp;        testBoard.resetBoard();</b>
+<b class="fc">&nbsp;        testCPU = new Connect4ComputerPlayer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** After testing occurs, sets tested objects reference to null.
+&nbsp;     *
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @After
+&nbsp;    public void tearDown() throws Exception {
+<b class="fc">&nbsp;        testBoard = null;</b>
+<b class="fc">&nbsp;        testCPU = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Test method that checks that 1000 random moves made do not
+&nbsp;     * fall out of bounds (inclusive 0 to inclusive 6). If out of bounds,
+&nbsp;     * boundsTestFailed is set to true, the loop breaks, and the test fails.
+&nbsp;     */
+&nbsp;    @Test
+&nbsp;    public void testMakeMove() {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 1000; i++) {</b>
+<b class="fc">&nbsp;            testColumnNum = testCPU.makeMove();</b>
+<b class="fc">&nbsp;            if (testColumnNum &lt; 0 || testColumnNum &gt; 6) {</b>
+<b class="nc">&nbsp;                boundsTestFailed = true;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        assertEquals(false, boundsTestFailed);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-16 20:24</div>
+</div>
+</body>
+</html>
